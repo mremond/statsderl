@@ -102,8 +102,9 @@ handle_cast({send, Packet}, State = #state {
         true ->
             ok
     catch
-        _:_ ->
-            ok
+        Class:Exception ->
+            lager:error("MREMOND: udp send failed: ~p ~p", [Class, Exception]),
+        ok
     end,
     {noreply, State};
 handle_cast(_Msg, State) ->
